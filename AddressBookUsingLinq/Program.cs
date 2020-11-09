@@ -33,7 +33,7 @@ namespace AddressBookUsingLinq
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
                     " 4 to delete a contact, 5 to find a person based on city or state, 6 to find the count of contacts in a city or state" +
-                    " and any other number to Exit");
+                    " 7 to order contacts according to their names of a city and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -54,6 +54,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 6:
                         CountByCityOrState(addressBook);
+                        break;
+                    case 7:
+                        OrderContactsOfACity(addressBook);
                         break;
                     default:
                         flag = false;
@@ -169,6 +172,23 @@ namespace AddressBookUsingLinq
             string cityOrState = Console.ReadLine();
             var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("City") == cityOrState || contacts.Field<string>("State") == cityOrState select contacts;
             Console.WriteLine("The number of contact persons in "+cityOrState+" are "+data.Count());
+        }
+
+        public static void OrderContactsOfACity(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The City for ordering a Contact");
+            string city = Console.ReadLine();
+            var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("City") == city orderby contacts.Field<string>("FirstName") select contacts;
+            if (data.Count() == 0)
+                Console.WriteLine("No data to show");
+            else
+            {
+                Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email");
+                foreach (var item in data)
+                {
+                    Console.WriteLine(item[0] + " -- " + item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                }
+            }
         }
     }
 }
