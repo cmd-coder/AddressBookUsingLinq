@@ -93,40 +93,41 @@ namespace AddressBookUsingLinq
                 Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
             }
         }
-        
+
         public static void EditContacts(DataTable addressBook)
         {
             Console.WriteLine("Enter The Name Of The Contact To Be Edited");
             string firstName = Console.ReadLine();
-            for(int i=0;i<addressBook.Rows.Count;i++)
+
+            var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("FirstName") == firstName select contacts;
+
+            foreach (var item in data)
             {
-                if(addressBook.Rows[i][0].ToString()==firstName)
-                {
-                    Console.WriteLine("Current Address is: " + addressBook.Rows[i][2]+"\n Enter new address");
-                    string address = Console.ReadLine();
-                    addressBook.Rows[i][2] = address;
+                Console.WriteLine("Current Address is: " + item[2] + "\n Enter new address");
+                string address = Console.ReadLine();
+                item[2] = address;
 
-                    Console.WriteLine("Current City is: " + addressBook.Rows[i][3] + "\n Enter new City");
-                    string city = Console.ReadLine();
-                    addressBook.Rows[i][3] = city;
+                Console.WriteLine("Current City is: " + item[3] + "\n Enter new City");
+                string city = Console.ReadLine();
+                item[3] = city;
 
-                    Console.WriteLine("Current State is: " + addressBook.Rows[i][4] + "\n Enter new State");
-                    string state = Console.ReadLine();
-                    addressBook.Rows[i][4] = state;
+                Console.WriteLine("Current State is: " + item[4] + "\n Enter new State");
+                string state = Console.ReadLine();
+                item[4] = state;
 
-                    Console.WriteLine("Current Zip is: " + addressBook.Rows[i][5] + "\n Enter new Zip");
-                    int zip = Convert.ToInt32(Console.ReadLine());
-                    addressBook.Rows[i][5] = zip;
+                Console.WriteLine("Current Zip is: " + item[5] + "\n Enter new Zip");
+                int zip = Convert.ToInt32(Console.ReadLine());
+                item[5] = zip;
 
-                    Console.WriteLine("Current Phone Number is: " + addressBook.Rows[i][6] + "\n Enter new Phone Number");
-                    string phoneNumber = Console.ReadLine();
-                    addressBook.Rows[i][6] = phoneNumber;
+                Console.WriteLine("Current Phone Number is: " + item[6] + "\n Enter new Phone Number");
+                string phoneNumber = Console.ReadLine();
+                item[6] = phoneNumber;
 
-                    Console.WriteLine("Current EmailID is: " + addressBook.Rows[i][7] + "\n Enter new EmailID");
-                    string email = Console.ReadLine();
-                    addressBook.Rows[i][2] = email;
-                }
+                Console.WriteLine("Current EmailID is: " + item[7] + "\n Enter new EmailID");
+                string email = Console.ReadLine();
+                item[7] = email;
             }
+
         }
 
         public static void DeleteContacts(DataTable addressBook)
