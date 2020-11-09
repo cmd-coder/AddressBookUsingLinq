@@ -30,7 +30,8 @@ namespace AddressBookUsingLinq
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts and any other number to Exit");
+                Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
+                    "4 to delete a contact and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -42,6 +43,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 3:
                         EditContacts(addressBook);
+                        break;
+                    case 4:
+                        DeleteContacts(addressBook);
                         break;
                     default:
                         flag = false;
@@ -120,6 +124,21 @@ namespace AddressBookUsingLinq
                     Console.WriteLine("Current EmailID is: " + addressBook.Rows[i][7] + "\n Enter new EmailID");
                     string email = Console.ReadLine();
                     addressBook.Rows[i][2] = email;
+                }
+            }
+        }
+
+        public static void DeleteContacts(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The Name Of The Contact To Be Deleted");
+            string firstName = Console.ReadLine();
+            for (int i = 0; i < addressBook.Rows.Count; i++)
+            {
+                if (addressBook.Rows[i][0].ToString() == firstName)
+                {
+                    addressBook.Rows[i].Delete();
+                    Console.WriteLine("The contact Has Been Deleted.");
+                    break;
                 }
             }
         }
