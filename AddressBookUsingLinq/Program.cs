@@ -22,6 +22,8 @@ namespace AddressBookUsingLinq
             addressBook.Columns.Add("Zip", typeof(int));
             addressBook.Columns.Add("PhoneNumber");
             addressBook.Columns.Add("Email");
+            addressBook.Columns.Add("Name");
+            addressBook.Columns.Add("Type");
             UniqueConstraint uniqueFirstName = new UniqueConstraint(new DataColumn[] {
             addressBook.Columns["FirstName"], addressBook.Columns["LastName"]});
             addressBook.Constraints.Add(uniqueFirstName);
@@ -68,15 +70,15 @@ namespace AddressBookUsingLinq
 
         public static void InsertDefaultContacts(DataTable addressBook)
         {
-            addressBook.Rows.Add("First", "Last", "Address", "City", "State", 4556, "45657898", "Email");
-            addressBook.Rows.Add("First2", "Last2", "Address2", "City5", "State", 456, "456578987", "Email5");
-            addressBook.Rows.Add("First3", "Last3", "Address4", "City2", "State2", 556, "4565789", "Email4");
-            addressBook.Rows.Add("First4", "Last4", "Address6", "City4", "State2", 4956, "4565798", "Email2");
-            addressBook.Rows.Add("First5", "Last5", "Address3", "City5", "State4", 4556, "4565898", "Email3");
-            addressBook.Rows.Add("First6", "Last6", "Address2", "City5", "State4", 4656, "4567898", "Email5");
-            addressBook.Rows.Add("First7", "Last7", "Address5", "City3", "State3", 4856, "4557898", "Email2");
-            addressBook.Rows.Add("First8", "Last8", "Address3", "City4", "State5", 4256, "4657898", "Email3");
-            addressBook.Rows.Add("First9", "Last9", "Address4", "City4", "State3", 4506, "5657898", "Email");
+            addressBook.Rows.Add("First", "Last", "Address", "City", "State", 4556, "45657898", "Email", "Office","Friends");
+            addressBook.Rows.Add("First2", "Last2", "Address2", "City5", "State", 456, "456578987", "Email5", "Office", "Family");
+            addressBook.Rows.Add("First3", "Last3", "Address4", "City2", "State2", 556, "4565789", "Email4", "Home", "Friends");
+            addressBook.Rows.Add("First4", "Last4", "Address6", "City4", "State2", 4956, "4565798", "Email2", "Office", "Profession");
+            addressBook.Rows.Add("First5", "Last5", "Address3", "City5", "State4", 4556, "4565898", "Email3", "Home", "Friends");
+            addressBook.Rows.Add("First6", "Last6", "Address2", "City5", "State4", 4656, "4567898", "Email5", "Office", "Family");
+            addressBook.Rows.Add("First7", "Last7", "Address5", "City3", "State3", 4856, "4557898", "Email2", "Home", "Family");
+            addressBook.Rows.Add("First8", "Last8", "Address3", "City4", "State5", 4256, "4657898", "Email3", "Home", "Family");
+            addressBook.Rows.Add("First9", "Last9", "Address4", "City4", "State3", 4506, "5657898", "Email", "Office", "Friends");
         }
 
         public static void InsertNewContacts(DataTable addressBook)
@@ -96,11 +98,11 @@ namespace AddressBookUsingLinq
 
         public static void DisplayAllContacts(DataTable addressBook)
         {
-            Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email ID");
+            Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email ID -- Name -- Type");
             var data = from contacts in addressBook.AsEnumerable() select contacts;
             foreach(var item in data)
             {
-                Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]+" -- "+item[8]+" -- "+item[9]);
             }
         }
 
@@ -161,7 +163,7 @@ namespace AddressBookUsingLinq
                 Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email");
                 foreach(var item in data)
                 {
-                    Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                    Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7] + " -- " + item[8] + " -- " + item[9]);
                 }
             }
         }
@@ -186,9 +188,11 @@ namespace AddressBookUsingLinq
                 Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email");
                 foreach (var item in data)
                 {
-                    Console.WriteLine(item[0] + " -- " + item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                    Console.WriteLine(item[0] + " -- " + item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7] + " -- " + item[8] + " -- " + item[9]);
                 }
             }
         }
+
+        
     }
 }
