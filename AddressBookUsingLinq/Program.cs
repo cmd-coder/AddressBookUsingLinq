@@ -31,7 +31,7 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    "4 to delete a contact and any other number to Exit");
+                    " 4 to delete a contact 5 to find a person based on city or state and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -46,6 +46,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 4:
                         DeleteContacts(addressBook);
+                        break;
+                    case 5:
+                        FindBasedOnCityOrState(addressBook);
                         break;
                     default:
                         flag = false;
@@ -141,6 +144,24 @@ namespace AddressBookUsingLinq
                     break;
                 }
             }
+        }
+
+        public static void FindBasedOnCityOrState(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The City or State to Search for a Contact");
+            string cityOrState = Console.ReadLine();
+            bool flag = false;
+            for (int i = 0; i < addressBook.Rows.Count; i++)
+            {
+                if (addressBook.Rows[i][3].ToString() == cityOrState || addressBook.Rows[i][4].ToString() == cityOrState)
+                {
+                    flag = true;
+                    Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email ID");
+                    Console.WriteLine(addressBook.Rows[i][0] + " -- " + addressBook.Rows[i][1] + " -- " + addressBook.Rows[i][2] + " -- " + addressBook.Rows[i][3] + " -- " + addressBook.Rows[i][4] + " -- " + addressBook.Rows[i][5] + " -- " + addressBook.Rows[i][6]+" -- "+addressBook.Rows[i][7]);
+                }
+            }
+            if (!flag)
+                Console.WriteLine("No Data Found");
         }
     }
 }
