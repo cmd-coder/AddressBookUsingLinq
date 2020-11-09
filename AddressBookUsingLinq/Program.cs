@@ -32,7 +32,8 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    " 4 to delete a contact 5 to find a person based on city or state and any other number to Exit");
+                    " 4 to delete a contact, 5 to find a person based on city or state, 6 to find the count of contacts in a city or state" +
+                    " and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -50,6 +51,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 5:
                         FindBasedOnCityOrState(addressBook);
+                        break;
+                    case 6:
+                        CountByCityOrState(addressBook);
                         break;
                     default:
                         flag = false;
@@ -147,7 +151,7 @@ namespace AddressBookUsingLinq
             Console.WriteLine("Enter The City or State to Search for a Contact");
             string cityOrState = Console.ReadLine();
             var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("City") == cityOrState || contacts.Field<string>("State") == cityOrState select contacts;
-            if (data == null)
+            if (data.Count()==0)
                 Console.WriteLine("No data to show");
             else
             {
@@ -157,6 +161,14 @@ namespace AddressBookUsingLinq
                     Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
                 }
             }
+        }
+
+        public static void CountByCityOrState(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The City or State to Search for a Contact");
+            string cityOrState = Console.ReadLine();
+            var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("City") == cityOrState || contacts.Field<string>("State") == cityOrState select contacts;
+            Console.WriteLine("The number of contact persons in "+cityOrState+" are "+data.Count());
         }
     }
 }
