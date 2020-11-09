@@ -30,7 +30,7 @@ namespace AddressBookUsingLinq
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts 3 to Exit");
+                Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -41,10 +41,10 @@ namespace AddressBookUsingLinq
                         InsertNewContacts(addressBook);
                         break;
                     case 3:
-                        flag = false;
+                        EditContacts(addressBook);
                         break;
                     default:
-                        Console.WriteLine("Wrong Input");
+                        flag = false;
                         break;
                 }
             }
@@ -86,6 +86,41 @@ namespace AddressBookUsingLinq
             foreach(var item in data)
             {
                 Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+            }
+        }
+        
+        public static void EditContacts(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The Name Of The Contact To Be Edited");
+            string firstName = Console.ReadLine();
+            for(int i=0;i<addressBook.Rows.Count;i++)
+            {
+                if(addressBook.Rows[i][0].ToString()==firstName)
+                {
+                    Console.WriteLine("Current Address is: " + addressBook.Rows[i][2]+"\n Enter new address");
+                    string address = Console.ReadLine();
+                    addressBook.Rows[i][2] = address;
+
+                    Console.WriteLine("Current City is: " + addressBook.Rows[i][3] + "\n Enter new City");
+                    string city = Console.ReadLine();
+                    addressBook.Rows[i][3] = city;
+
+                    Console.WriteLine("Current State is: " + addressBook.Rows[i][4] + "\n Enter new State");
+                    string state = Console.ReadLine();
+                    addressBook.Rows[i][4] = state;
+
+                    Console.WriteLine("Current Zip is: " + addressBook.Rows[i][5] + "\n Enter new Zip");
+                    int zip = Convert.ToInt32(Console.ReadLine());
+                    addressBook.Rows[i][5] = zip;
+
+                    Console.WriteLine("Current Phone Number is: " + addressBook.Rows[i][6] + "\n Enter new Phone Number");
+                    string phoneNumber = Console.ReadLine();
+                    addressBook.Rows[i][6] = phoneNumber;
+
+                    Console.WriteLine("Current EmailID is: " + addressBook.Rows[i][7] + "\n Enter new EmailID");
+                    string email = Console.ReadLine();
+                    addressBook.Rows[i][2] = email;
+                }
             }
         }
     }
