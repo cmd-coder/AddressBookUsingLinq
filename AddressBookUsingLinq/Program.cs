@@ -35,7 +35,7 @@ namespace AddressBookUsingLinq
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
                     " 4 to delete a contact, 5 to find a person based on city or state, 6 to find the count of contacts in a city or state" +
-                    " 7 to order contacts according to their names of a city and any other number to Exit");
+                    " 7 to order contacts according to their names of a city, 8 to get the number of contacts of each type and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -59,6 +59,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 7:
                         OrderContactsOfACity(addressBook);
+                        break;
+                    case 8:
+                        CountByType(addressBook);
                         break;
                     default:
                         flag = false;
@@ -193,6 +196,16 @@ namespace AddressBookUsingLinq
             }
         }
 
-        
+        public static void CountByType(DataTable addressBook)
+        {
+            //Console.WriteLine("Enter The City or State to Search for a Contact");
+            //string cityOrState = Console.ReadLine();
+            var data = from contacts in addressBook.AsEnumerable() group contacts by contacts.Field<string>("Type") into typeData select new { Type=typeData.Key, Count=typeData.Count() };
+            foreach(var item in data)
+            {
+                Console.WriteLine("Type: "+item.Type+" Count: "+item.Count);
+            }
+        }
+
     }
 }
