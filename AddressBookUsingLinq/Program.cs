@@ -31,7 +31,8 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    " 4 to delete a contact 5 to find a person based on city or state and any other number to Exit");
+                    " 4 to delete a contact 5 to find a person based on city or state 6 to find the count the number of contacts in a city or state" +
+                    " and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -49,6 +50,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 5:
                         FindBasedOnCityOrState(addressBook);
+                        break;
+                    case 6:
+                        CountByAddressOrState(addressBook);
                         break;
                     default:
                         flag = false;
@@ -162,6 +166,26 @@ namespace AddressBookUsingLinq
             }
             if (!flag)
                 Console.WriteLine("No Data Found");
+        }
+
+        public static void CountByAddressOrState(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The City or State to Search for a Contact");
+            string cityOrState = Console.ReadLine();
+            bool flag = false;
+            int count = 0;
+            for (int i = 0; i < addressBook.Rows.Count; i++)
+            {
+                if (addressBook.Rows[i][3].ToString() == cityOrState || addressBook.Rows[i][4].ToString() == cityOrState)
+                {
+                    flag = true;
+                    count++;
+                }
+            }
+            if (!flag)
+                Console.WriteLine("No Data Found");
+            else
+                Console.WriteLine("The number of cotacts are: " + count);
         }
     }
 }
