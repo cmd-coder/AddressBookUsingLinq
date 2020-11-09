@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 
 namespace AddressBookUsingLinq
 {
@@ -31,7 +32,7 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    "4 to delete a contact and any other number to Exit");
+                    " 4 to delete a contact and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -132,15 +133,9 @@ namespace AddressBookUsingLinq
         {
             Console.WriteLine("Enter The Name Of The Contact To Be Deleted");
             string firstName = Console.ReadLine();
-            for (int i = 0; i < addressBook.Rows.Count; i++)
-            {
-                if (addressBook.Rows[i][0].ToString() == firstName)
-                {
-                    addressBook.Rows[i].Delete();
-                    Console.WriteLine("The contact Has Been Deleted.");
-                    break;
-                }
-            }
+            var data = (from contacts in addressBook.AsEnumerable() where contacts.Field<string>("FirstName") == firstName select contacts).First();
+            if (data != null)
+                data.Delete();
         }
     }
 }
