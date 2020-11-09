@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 
 namespace AddressBookUsingLinq
 {
@@ -31,10 +32,9 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    " 4 to delete a contact 5 to find a person based on city or state 6 to find the count the number of contacts in a city or state" +
-                    " and any other number to Exit");
+                    " 4 to delete a contact and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
-                switch (input)
+                switch(input)
                 {
                     case 1:
                         DisplayAllContacts(addressBook);
@@ -47,12 +47,6 @@ namespace AddressBookUsingLinq
                         break;
                     case 4:
                         DeleteContacts(addressBook);
-                        break;
-                    case 5:
-                        FindBasedOnCityOrState(addressBook);
-                        break;
-                    case 6:
-                        CountByAddressOrState(addressBook);
                         break;
                     default:
                         flag = false;
@@ -94,99 +88,54 @@ namespace AddressBookUsingLinq
         {
             Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email ID");
             var data = from contacts in addressBook.AsEnumerable() select contacts;
-            foreach (var item in data)
+            foreach(var item in data)
             {
-                Console.WriteLine(item[0] + " -- " + item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
             }
         }
-
+        
         public static void EditContacts(DataTable addressBook)
         {
             Console.WriteLine("Enter The Name Of The Contact To Be Edited");
             string firstName = Console.ReadLine();
-
-            var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("FirstName") == firstName select contacts;
-
-            foreach (var item in data)
+            for(int i=0;i<addressBook.Rows.Count;i++)
             {
-                Console.WriteLine("Current Address is: " + item[2] + "\n Enter new address");
-                string address = Console.ReadLine();
-                item[2] = address;
+                if(addressBook.Rows[i][0].ToString()==firstName)
+                {
+                    Console.WriteLine("Current Address is: " + addressBook.Rows[i][2]+"\n Enter new address");
+                    string address = Console.ReadLine();
+                    addressBook.Rows[i][2] = address;
 
-                Console.WriteLine("Current City is: " + item[3] + "\n Enter new City");
-                string city = Console.ReadLine();
-                item[3] = city;
+                    Console.WriteLine("Current City is: " + addressBook.Rows[i][3] + "\n Enter new City");
+                    string city = Console.ReadLine();
+                    addressBook.Rows[i][3] = city;
 
-                Console.WriteLine("Current State is: " + item[4] + "\n Enter new State");
-                string state = Console.ReadLine();
-                item[4] = state;
+                    Console.WriteLine("Current State is: " + addressBook.Rows[i][4] + "\n Enter new State");
+                    string state = Console.ReadLine();
+                    addressBook.Rows[i][4] = state;
 
-                Console.WriteLine("Current Zip is: " + item[5] + "\n Enter new Zip");
-                int zip = Convert.ToInt32(Console.ReadLine());
-                item[5] = zip;
+                    Console.WriteLine("Current Zip is: " + addressBook.Rows[i][5] + "\n Enter new Zip");
+                    int zip = Convert.ToInt32(Console.ReadLine());
+                    addressBook.Rows[i][5] = zip;
 
-                Console.WriteLine("Current Phone Number is: " + item[6] + "\n Enter new Phone Number");
-                string phoneNumber = Console.ReadLine();
-                item[6] = phoneNumber;
+                    Console.WriteLine("Current Phone Number is: " + addressBook.Rows[i][6] + "\n Enter new Phone Number");
+                    string phoneNumber = Console.ReadLine();
+                    addressBook.Rows[i][6] = phoneNumber;
 
-                Console.WriteLine("Current EmailID is: " + item[7] + "\n Enter new EmailID");
-                string email = Console.ReadLine();
-                item[7] = email;
+                    Console.WriteLine("Current EmailID is: " + addressBook.Rows[i][7] + "\n Enter new EmailID");
+                    string email = Console.ReadLine();
+                    addressBook.Rows[i][2] = email;
+                }
             }
-
         }
 
         public static void DeleteContacts(DataTable addressBook)
         {
             Console.WriteLine("Enter The Name Of The Contact To Be Deleted");
             string firstName = Console.ReadLine();
-            for (int i = 0; i < addressBook.Rows.Count; i++)
-            {
-                if (addressBook.Rows[i][0].ToString() == firstName)
-                {
-                    addressBook.Rows[i].Delete();
-                    Console.WriteLine("The contact Has Been Deleted.");
-                    break;
-                }
-            }
-        }
-
-        public static void FindBasedOnCityOrState(DataTable addressBook)
-        {
-            Console.WriteLine("Enter The City or State to Search for a Contact");
-            string cityOrState = Console.ReadLine();
-            bool flag = false;
-            for (int i = 0; i < addressBook.Rows.Count; i++)
-            {
-                if (addressBook.Rows[i][3].ToString() == cityOrState || addressBook.Rows[i][4].ToString() == cityOrState)
-                {
-                    flag = true;
-                    Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email ID");
-                    Console.WriteLine(addressBook.Rows[i][0] + " -- " + addressBook.Rows[i][1] + " -- " + addressBook.Rows[i][2] + " -- " + addressBook.Rows[i][3] + " -- " + addressBook.Rows[i][4] + " -- " + addressBook.Rows[i][5] + " -- " + addressBook.Rows[i][6]+" -- "+addressBook.Rows[i][7]);
-                }
-            }
-            if (!flag)
-                Console.WriteLine("No Data Found");
-        }
-
-        public static void CountByAddressOrState(DataTable addressBook)
-        {
-            Console.WriteLine("Enter The City or State to Search for a Contact");
-            string cityOrState = Console.ReadLine();
-            bool flag = false;
-            int count = 0;
-            for (int i = 0; i < addressBook.Rows.Count; i++)
-            {
-                if (addressBook.Rows[i][3].ToString() == cityOrState || addressBook.Rows[i][4].ToString() == cityOrState)
-                {
-                    flag = true;
-                    count++;
-                }
-            }
-            if (!flag)
-                Console.WriteLine("No Data Found");
-            else
-                Console.WriteLine("The number of cotacts are: " + count);
+            var data = (from contacts in addressBook.AsEnumerable() where contacts.Field<string>("FirstName") == firstName select contacts).First();
+            if (data != null)
+                data.Delete();
         }
     }
 }
