@@ -32,7 +32,7 @@ namespace AddressBookUsingLinq
             while (flag)
             {
                 Console.WriteLine("Enter 1 to display all the contacts, 2 to insert new contacts, 3 to edit contacts" +
-                    " 4 to delete a contact and any other number to Exit");
+                    " 4 to delete a contact 5 to find a person based on city or state and any other number to Exit");
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch(input)
                 {
@@ -47,6 +47,9 @@ namespace AddressBookUsingLinq
                         break;
                     case 4:
                         DeleteContacts(addressBook);
+                        break;
+                    case 5:
+                        FindBasedOnCityOrState(addressBook);
                         break;
                     default:
                         flag = false;
@@ -137,6 +140,23 @@ namespace AddressBookUsingLinq
             var data = (from contacts in addressBook.AsEnumerable() where contacts.Field<string>("FirstName") == firstName select contacts).First();
             if (data != null)
                 data.Delete();
+        }
+
+        public static void FindBasedOnCityOrState(DataTable addressBook)
+        {
+            Console.WriteLine("Enter The City or State to Search for a Contact");
+            string cityOrState = Console.ReadLine();
+            var data = from contacts in addressBook.AsEnumerable() where contacts.Field<string>("City") == cityOrState || contacts.Field<string>("State") == cityOrState select contacts;
+            if (data == null)
+                Console.WriteLine("No data to show");
+            else
+            {
+                Console.WriteLine("First Name -- Last Name -- Address -- City -- State -- Zip -- Phone Number -- Email");
+                foreach(var item in data)
+                {
+                    Console.WriteLine(item[0]+" -- "+ item[1] + " -- " + item[2] + " -- " + item[3] + " -- " + item[4] + " -- " + item[5] + " -- " + item[6] + " -- " + item[7]);
+                }
+            }
         }
     }
 }
